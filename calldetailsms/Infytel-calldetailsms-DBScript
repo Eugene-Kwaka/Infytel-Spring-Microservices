@@ -1,0 +1,33 @@
+create table calldetails(
+	id SERIAL primary key,
+	called_by bigint,
+	called_to bigint,
+	called_on date,
+	duration integer
+);
+
+create table customer(
+	phone_no bigint primary key,
+	name varchar(50),
+	age integer,
+	gender char,
+	address varchar(50),
+	plan_id integer,
+	password varchar(50)
+);
+
+
+insert into calldetails (called_by, called_to, called_on, duration) values(
+(9009009001, 9009009002, '2017-08-12', 34),
+(9009009002, 9009009003, '2017-08-11', 4),
+(9009009003, 9009009001, '2017-08-10', 14),
+(9009009001, 9009009002, '2017-08-13', 3),
+(9009009002, 9009009003, '2017-08-14', 55),
+(9009009003, 9009009001, '2017-08-15', 126),
+(9009009001, 9009009002, '2017-08-16', 79),
+(9009009002, 9009009003, '2017-08-17', 3);
+
+insert into customer values
+(9009009001, 'Mark', 25, 'M', 'Chicago', 1, 'infy@123'),
+(9009009002, 'Steve', 56, 'M', 'Texas', 2, 'steve@456'),
+(9009009003, 'Linda', 23, 'F', 'New York', 3, 'lind@102');
