@@ -5,23 +5,23 @@ import com.eugene.customerms.dto.LoginDTO;
 import com.eugene.customerms.dto.PlanDTO;
 import com.eugene.customerms.entity.Customer;
 import com.eugene.customerms.repository.CustomerRepository;
-import org.modelmapper.ModelMapper;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class CustomerService {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    CustomerCircuitBreakerService customerCircuitBreakerService;
 
-    public RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     CustomerRepository customerRepository;
@@ -41,6 +41,7 @@ public class CustomerService {
         return customer != null && customer.getPassword().equals(loginDTO.getPassword());
     }
 
+    @CircuitBreaker(name="customerService", fallbackMethod = "getCustomerProfileFallback")
     public CustomerDTO getCustomerProfile(Long phoneNo) {
         logger.info("Profile request for customer {}", phoneNo);
 
@@ -48,19 +49,36 @@ public class CustomerService {
 
         CustomerDTO customerDTO = CustomerDTO.valueOf(customer);
 
+        //Future<PlanDTO> planDTOFuture = customerCircuitBreakerService.getPlan(customerDTO.getCurrentPlan().getPlanId());
 
-        // Using RestTemplate to make a call to the Plan service to get the plan details based on the PlanId
-        PlanDTO planDTO = restTemplate.getForObject("http://localhost:8400/plans/"+customerDTO.getCurrentPlan().getPlanId(), PlanDTO.class);
-        customerDTO.setCurrentPlan(planDTO);
+        CompletableFuture<PlanDTO> planFuture = customerCircuitBreakerService.getPlan(customerDTO.getCurrentPlan().getPlanId());
 
-        // Accessing FriendFamily microservice using RestTemplate
-        List<Long> friends = restTemplate.getForObject("http://localhost:8300/customers/"+phoneNo+"/friends", List.class);
-        customerDTO.setFriendAndFamily(friends);
+        //Future<List<Long>> friendsFuture = customerCircuitBreakerService.getCustomerProfile(phoneNo);
+
+        CompletableFuture<List<Long>> friendsFuture = customerCircuitBreakerService.getCustomerProfile(phoneNo);
+
+        // Combine results
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(planFuture, friendsFuture);
+
+        // Wait for all async tasks to complete
+        allFutures.join();
+
+        // Set results into CustomerDTO
+        customerDTO.setCurrentPlan(planFuture.join());
+        customerDTO.setFriendAndFamily(friendsFuture.join());
+
+        //customerDTO.setFriendAndFamily(friendsFuture.get());
+
+        //customerDTO.setCurrentPlan(planDTOFuture.get());
 
         return customerDTO;
 
+    }
 
+    public CustomerDTO getCustomerProfileFallback(Long phoneNo, Throwable throwable){
+        logger.info("======In Fallback=====");
 
+        return new CustomerDTO();
     }
 }
 

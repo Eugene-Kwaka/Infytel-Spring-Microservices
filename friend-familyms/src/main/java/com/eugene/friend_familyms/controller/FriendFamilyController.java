@@ -29,6 +29,12 @@ public class FriendFamilyController {
     @GetMapping("/{phoneNo}/friends")
     public List<Long> getSpecificFriends(@PathVariable Long phoneNo) {
         logger.info("Get request for customer {}", phoneNo);
+
+//        try{
+//            Thread.sleep(5000);
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
         return friendService.getSpecificFriends(phoneNo);
     }
 }
