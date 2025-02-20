@@ -55,7 +55,7 @@ public class CustomerService {
 
         //Future<List<Long>> friendsFuture = customerCircuitBreakerService.getCustomerProfile(phoneNo);
 
-        CompletableFuture<List<Long>> friendsFuture = customerCircuitBreakerService.getCustomerProfile(phoneNo);
+        CompletableFuture<List<Long>> friendsFuture = customerCircuitBreakerService.getSpecificFriends(phoneNo);
 
         // Combine results
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(planFuture, friendsFuture);

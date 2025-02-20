@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("customers/")
 public class FriendFamilyController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -19,14 +18,14 @@ public class FriendFamilyController {
     FriendFamilyService friendService;
 
     // Create Friend Family
-    @PostMapping("/{phoneNo}/friends")
+    @PostMapping("/customers/{phoneNo}/friends")
     public void saveFriend(@PathVariable Long phoneNo, @RequestBody FriendFamilyDTO friendDTO) {
         logger.info("Creation request for customer {} with data {}", phoneNo, friendDTO);
         friendService.saveFriend(phoneNo, friendDTO);
     }
 
     // Get Specific Friends
-    @GetMapping("/{phoneNo}/friends")
+    @GetMapping("/customers/{phoneNo}/friends")
     public List<Long> getSpecificFriends(@PathVariable Long phoneNo) {
         logger.info("Get request for customer {}", phoneNo);
 

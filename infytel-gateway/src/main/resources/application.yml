@@ -1,23 +1,23 @@
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: calldetailsms
-          uri: lb://calldetailsms
-          predicates:
-            - Path=/customers/*/calldetails
-        - id: customerms
-          uri: lb://customers
-          predicates:
-            - Path=/customers/**
-        - id: friend-familyms
-          uri: lb://friend-familyms
-          predicates:
-            - Path=/customers/*/friends
-        - id: planms
-          uri: lb://planms
-          predicates:
-            - Path=/plans/**
+#spring:
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#      routes:
+#        - id: calldetailsms
+#          uri: lb://calldetailsms
+#          predicates:
+#            - Path=/customers/*/calldetails
+#        - id: customerms
+#          uri: lb://customers
+#          predicates:
+#            - Path=/customers/**
+#        - id: friend-familyms
+#          uri: lb://friend-familyms
+#          predicates:
+#            - Path=/customers/*/friends
+#        - id: planms
+#          uri: lb://planms
+#          predicates:
+#            - Path=/plans/**

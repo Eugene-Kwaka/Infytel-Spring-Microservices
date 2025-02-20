@@ -10,6 +10,6 @@ import java.util.List;
 @FeignClient(name = "friend-familyms")
 public interface FriendFamilyFeignClient {
 
-    @GetMapping("/customers/{phoneNo}")
-    List<Long> getCustomerProfile(@PathVariable("phoneNo") Long phoneNo);
+    @GetMapping("/customers/{phoneNo}/friends")
+    List<Long> getSpecificFriends(@PathVariable("phoneNo") Long phoneNo);
 }

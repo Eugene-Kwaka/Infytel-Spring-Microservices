@@ -38,9 +38,9 @@ public class CustomerCircuitBreakerService {
 //    }
 
     @CircuitBreaker(name="customerService")
-    public CompletableFuture<List<Long>> getCustomerProfile(Long phoneNo){
+    public CompletableFuture<List<Long>> getSpecificFriends(Long phoneNo){
 
-        return CompletableFuture.supplyAsync(() -> friendFamilyFeignClient.getCustomerProfile(phoneNo));
+        return CompletableFuture.supplyAsync(() -> friendFamilyFeignClient.getSpecificFriends(phoneNo));
     }
 
 }

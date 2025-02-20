@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("customer/")
+@RequestMapping("customers/")
 public class CallDetailsController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());

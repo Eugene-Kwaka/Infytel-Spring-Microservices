@@ -31,7 +31,7 @@ public class FriendFamilyService {
     }
 
     // Get Specific Friends
-    public List<Long> getSpecificFriends(long phoneNo) {
+    public List<Long> getSpecificFriends(Long phoneNo) {
         List<Long> friendList = new ArrayList<>();
 
         List<FriendFamily> friends = friendRepository.getByPhoneNo(phoneNo);
