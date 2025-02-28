@@ -33,7 +33,7 @@ public class CustomerController {
 
     // Fetch full profile of a specific customer
     @GetMapping("/customers/{phoneNo}")
-    public CustomerDTO getCustomerProfile(@PathVariable Long phoneNo) {
+    public CustomerDTO getCustomerProfile(@PathVariable("phoneNo") Long phoneNo) {
         logger.info("Profile request for customer {}", phoneNo);
         return customerService.getCustomerProfile(phoneNo);
     }

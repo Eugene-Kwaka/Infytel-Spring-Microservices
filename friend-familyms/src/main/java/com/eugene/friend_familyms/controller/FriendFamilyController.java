@@ -26,7 +26,7 @@ public class FriendFamilyController {
 
     // Get Specific Friends
     @GetMapping("/customers/{phoneNo}/friends")
-    public List<Long> getSpecificFriends(@PathVariable Long phoneNo) {
+    public List<Long> getSpecificFriends(@PathVariable("phoneNo") Long phoneNo) {
         logger.info("Get request for customer {}", phoneNo);
 
 //        try{

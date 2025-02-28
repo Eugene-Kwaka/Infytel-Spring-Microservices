@@ -20,7 +20,7 @@ public class CallDetailsController {
     CallDetailsService callDetailsService;
 
     @GetMapping("/{phoneNo}/calldetails")
-    public List<CallDetailsDTO> getCustomerCallDetails(@PathVariable Long phoneNo){
+    public List<CallDetailsDTO> getCustomerCallDetails(@PathVariable("phoneNo") Long phoneNo){
         logger.info("Call details request for customer {}", phoneNo);
 
         return callDetailsService.getCustomerCallDetails(phoneNo);

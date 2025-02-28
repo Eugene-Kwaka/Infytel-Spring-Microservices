@@ -28,7 +28,7 @@ public class PlanController {
     }
 
     @GetMapping("/plans/{planId}")
-    public PlanDTO getPlan(@PathVariable Integer planId) {
+    public PlanDTO getPlan(@PathVariable("planId") Integer planId) {
 
 //        try{
 //            Thread.sleep(5000);

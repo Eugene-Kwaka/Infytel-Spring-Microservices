@@ -5,3 +5,7 @@ springbootconsul.zip
 .gitignore
 InfytelGo/
 .idea/
+bin/
+Images/ 
+.mvn/
+
