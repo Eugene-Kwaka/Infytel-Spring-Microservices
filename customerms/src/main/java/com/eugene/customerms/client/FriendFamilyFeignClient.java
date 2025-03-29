@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient(name = "friend-familyms")
+@FeignClient(name = "friend-familyms", url = "${friend-familyms.url}")
 public interface FriendFamilyFeignClient {
 
     @GetMapping("/customers/{phoneNo}/friends")

@@ -8,4 +8,5 @@ InfytelGo/
 bin/
 Images/ 
 .mvn/
+.vscode/
 
