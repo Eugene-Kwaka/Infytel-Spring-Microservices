@@ -29,13 +29,6 @@ public class PlanController {
 
     @GetMapping("/plans/{planId}")
     public PlanDTO getPlan(@PathVariable("planId") Integer planId) {
-
-//        try{
-//            Thread.sleep(5000);
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-//        }
-
         return planService.getPlan(planId);
     }
 }

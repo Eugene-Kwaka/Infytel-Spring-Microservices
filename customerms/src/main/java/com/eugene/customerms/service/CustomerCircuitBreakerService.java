@@ -20,24 +20,24 @@ public class CustomerCircuitBreakerService {
     @Autowired
     FriendFamilyFeignClient friendFamilyFeignClient;
 
-//    @CircuitBreaker(name="customerService")
-//    public Future<PlanDTO> getPlan(Integer planId){
-//
-//        return Future.of(() -> planFeignClient.getPlan(planId));
-//    }
+    /**
+     * The @CircuitBreaker annotation doesn't work properly inside CompletableFuture.supplyAsync()
+     * In the previous case, it was applied to the outer method (getPlan(), getSpecificFriends()) not what runs inside .supplyAsync() method itself.
+     * So Resilience4j wraps the method returning CompletableFuture, but it does not track what happens in the supplyAsync(), because that part runs in a different thread, outside Resilience4j's context.
+     * This results in:
+     *  1. IF the Feign call fails or times out inside the async block, Resilience4j won't know about it.
+     *  2. The circuit breaker might never open or recover.
+     *  3. Failures don't trigger the callback function properly.
+     *  4. Logging and metrics are broken/incomplete.
+     *  */
 
-    @CircuitBreaker(name="customerService")
+//    @CircuitBreaker(name="customerService")
     public CompletableFuture<PlanDTO> getPlan(Integer planId){
 
         return CompletableFuture.supplyAsync(() -> planFeignClient.getPlan(planId));
     }
-//    @CircuitBreaker(name="customerService")
-//    public Future<List<Long>> getCustomerProfile(Long phoneNo){
-//
-//        return Future.of(() -> friendFamilyFeignClient.getCustomerProfile(phoneNo));
-//    }
 
-    @CircuitBreaker(name="customerService")
+//    @CircuitBreaker(name="customerService")
     public CompletableFuture<List<Long>> getSpecificFriends(Long phoneNo){
 
         return CompletableFuture.supplyAsync(() -> friendFamilyFeignClient.getSpecificFriends(phoneNo));

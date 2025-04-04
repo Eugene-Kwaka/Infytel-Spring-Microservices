@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient(name = "planms", url = "${planms.url}")
+@FeignClient(name = "planms", url="${planms.url}" )
 public interface PlanFeignClient {
 
     @GetMapping("/plans/{planId}")
     PlanDTO getPlan(@PathVariable("planId") Integer planId);
 }
+
+//url = "${planms.url}"

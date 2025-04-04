@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient(name = "friend-familyms", url = "${friend-familyms.url}")
+@FeignClient(name = "friend-familyms",  url="${friend-familyms.url}")
 public interface FriendFamilyFeignClient {
 
     @GetMapping("/customers/{phoneNo}/friends")
     List<Long> getSpecificFriends(@PathVariable("phoneNo") Long phoneNo);
 }
+
+//url = "${friend-familyms.url}

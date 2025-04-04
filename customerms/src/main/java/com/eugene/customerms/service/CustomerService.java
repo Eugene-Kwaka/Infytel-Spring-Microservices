@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -60,6 +61,10 @@ public class CustomerService {
         // Combine results
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(planFuture, friendsFuture);
 
+        logger.info("Fetched plan: {}", planFuture.join());
+        logger.info("Fetched friends: {}", friendsFuture.join());
+
+
         // Wait for all async tasks to complete
         allFutures.join();
 
@@ -77,8 +82,14 @@ public class CustomerService {
 
     public CustomerDTO getCustomerProfileFallback(Long phoneNo, Throwable throwable){
         logger.info("======In Fallback=====");
+        logger.warn("Fallback triggered for phoneNo {}. Reason: {}", phoneNo, throwable.toString(), throwable);
 
-        return new CustomerDTO();
+        CustomerDTO fallbackDto = new CustomerDTO();
+        fallbackDto.setPhoneNo(phoneNo);
+        fallbackDto.setName("Unavailable");
+        fallbackDto.setFriendAndFamily(Collections.emptyList());
+
+        return fallbackDto;
     }
 }
 
