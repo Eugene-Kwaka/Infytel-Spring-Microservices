@@ -9,4 +9,15 @@ bin/
 Images/ 
 .mvn/
 .vscode/
+/target/
+/*/target/
+*.log
+*.class
+*.jar
+*.war
+/.idea/
+/.vscode/
+/*.iml
+/.DS_Store
+
 
