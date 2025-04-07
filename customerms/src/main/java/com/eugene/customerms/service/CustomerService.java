@@ -44,37 +44,30 @@ public class CustomerService {
 
     @CircuitBreaker(name="customerService", fallbackMethod = "getCustomerProfileFallback")
     public CustomerDTO getCustomerProfile(Long phoneNo) {
+
         logger.info("Profile request for customer {}", phoneNo);
 
         Customer customer = customerRepository.findByPhoneNo(phoneNo);
 
         CustomerDTO customerDTO = CustomerDTO.valueOf(customer);
 
-        //Future<PlanDTO> planDTOFuture = customerCircuitBreakerService.getPlan(customerDTO.getCurrentPlan().getPlanId());
-
         CompletableFuture<PlanDTO> planFuture = customerCircuitBreakerService.getPlan(customerDTO.getCurrentPlan().getPlanId());
-
-        //Future<List<Long>> friendsFuture = customerCircuitBreakerService.getCustomerProfile(phoneNo);
 
         CompletableFuture<List<Long>> friendsFuture = customerCircuitBreakerService.getSpecificFriends(phoneNo);
 
         // Combine results
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(planFuture, friendsFuture);
 
+        // Wait for all async tasks to complete
+        // Combines both async tasks into a single future and blocks until both are completed.
+        allFutures.join();
+
         logger.info("Fetched plan: {}", planFuture.join());
         logger.info("Fetched friends: {}", friendsFuture.join());
-
-
-        // Wait for all async tasks to complete
-        allFutures.join();
 
         // Set results into CustomerDTO
         customerDTO.setCurrentPlan(planFuture.join());
         customerDTO.setFriendAndFamily(friendsFuture.join());
-
-        //customerDTO.setFriendAndFamily(friendsFuture.get());
-
-        //customerDTO.setCurrentPlan(planDTOFuture.get());
 
         return customerDTO;
 

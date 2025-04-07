@@ -14,5 +14,3 @@ public interface PlanFeignClient {
     @GetMapping("/plans/{planId}")
     PlanDTO getPlan(@PathVariable("planId") Integer planId);
 }
-
-//url = "${planms.url}"

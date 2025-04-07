@@ -13,5 +13,3 @@ public interface FriendFamilyFeignClient {
     @GetMapping("/customers/{phoneNo}/friends")
     List<Long> getSpecificFriends(@PathVariable("phoneNo") Long phoneNo);
 }
-
-//url = "${friend-familyms.url}
