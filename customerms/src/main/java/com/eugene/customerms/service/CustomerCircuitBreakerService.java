@@ -36,8 +36,7 @@ public class CustomerCircuitBreakerService {
      *  2. The synchronous methods are called inside the supplyAsync() block, ensuring that the circuit breaker is applied correctly.
      *  3. The CompletableFuture.supplyAsync() method is used to run the synchronous methods in a separate thread, allowing for non-blocking behavior.
      *  4. The fallbackPlan(...) and fallbackFriends(...) methods provide graceful fallback behavior when Feign clients fail.
-     *  5. The fallback methods are also annotated with @CircuitBreaker to ensure that they are resilient as well.
-     *  6. These fallback methods match the signature: (OriginalParams..., Throwable) — which is required by Resilience4j.
+     *  5. These fallback methods match the signature: (OriginalParams..., Throwable) — which is required by Resilience4j.
      *  */
 
 
@@ -66,6 +65,7 @@ public class CustomerCircuitBreakerService {
     // Synchronous Friend-Family Service Call with Circuit Breaker
     // -----------------------------
 
+    @CircuitBreaker(name="friendFamilyService", fallbackMethod = "fallbackFriends")
     public List<Long> getFriendsSync(Long phoneNo){
         return friendFamilyFeignClient.getSpecificFriends(phoneNo);
     }
