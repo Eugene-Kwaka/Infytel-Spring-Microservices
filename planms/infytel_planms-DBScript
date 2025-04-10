@@ -1,0 +1,12 @@
+create table plan(
+    plan_id integer primary key,
+    plan_name varchar(50),
+    local_rate integer,
+    national_rate integer
+);
+
+insert into plan values(1,'IFY_60',60,60);
+insert into plan values(2,'IFY_10',10,20);
+insert into plan values(3,'IFY_30',30,60);
+
+select * from plan;

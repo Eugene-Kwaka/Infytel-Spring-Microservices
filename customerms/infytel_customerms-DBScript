@@ -1,0 +1,16 @@
+create table customer(
+	phone_no bigint primary key,
+	name varchar(50),
+	age integer,
+	gender char,
+	address varchar(50),
+	plan_id integer,
+	password varchar(50)
+);
+
+insert into customer values
+(9009090001, 'Mark', 25, 'M', 'Chicago', 1, 'infy@123'),
+(9009090002, 'Steve', 56, 'M', 'Texas', 2, 'steve@456'),
+(9009090003, 'Linda', 23, 'F', 'New York', 3, 'lind@102');
+
+select * from customer;

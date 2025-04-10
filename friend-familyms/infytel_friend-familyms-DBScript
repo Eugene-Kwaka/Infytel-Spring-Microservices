@@ -1,0 +1,12 @@
+create table friendfamily(
+    id bigint primary key,
+    phone_no bigint,
+    friend_and_family BIGINT
+);
+
+insert into friendfamily values(1,9009090001,9009090002);
+insert into friendfamily values(2,9009090001,9009090003);
+insert into friendfamily values(3,9009090002,9009090003);
+insert into friendfamily values(4,9009090003,9009090001);
+
+select * from friendfamily;
