@@ -44,7 +44,7 @@ public class CustomerCircuitBreakerService {
     // Synchronous Plan Service Call with Circuit Breaker
     // -----------------------------
 
-    @CircuitBreaker(name="planService", fallbackMethod = "getPlanFallback")
+    @CircuitBreaker(name="planService", fallbackMethod = "fallbackPlan")
     public PlanDTO getPlanSync(Integer planId){
         return planFeignClient.getPlan(planId);
     }
